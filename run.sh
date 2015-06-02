@@ -20,7 +20,7 @@ elif [ -n "$SSL_CERTS_COUNT" ]; then
     echo "Multiple SSL certificates provided!"
     mkdir /certs
 
-    for i in `seq 0 $SSL_CERTS_COUNT`; do
+    for i in `seq 1 $SSL_CERTS_COUNT`; do
         var="SSL_CERT_$i"
         echo -e "${!var}" > /certs/${i}_servercert.pem
     done
