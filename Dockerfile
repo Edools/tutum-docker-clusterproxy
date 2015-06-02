@@ -1,5 +1,5 @@
 FROM ubuntu:trusty
-MAINTAINER Feng Honglin <hfeng@tutum.co>
+MAINTAINER Vinicius Magalhães <vinicius@edools.com>
 
 # Install pip and haproxy
 RUN echo 'deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main' >> /etc/apt/sources.list && \

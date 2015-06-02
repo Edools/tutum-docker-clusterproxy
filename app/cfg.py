@@ -51,7 +51,9 @@ def cfg_frontend(vhost):
     frontend = []
     frontend.append("bind 0.0.0.0:%s" % FRONTEND_PORT)
     if SSL:
-        frontend.append("reqadd X-Forwarded-Proto:\ https")
+        frontend.append("reqadd X-Forwarded-Proto:\ https if { ssl_fc }")
+        if SSL_FORCE:
+            frontend.append("redirect scheme https code 301 if !{ ssl_fc }")
         frontend.append("bind 0.0.0.0:443 %s" % SSL)
     if vhost:
         added_vhost = set()
