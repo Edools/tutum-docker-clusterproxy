@@ -84,6 +84,8 @@ def cfg_backend(backend_routes, vhost):
                             server_string = "server %s %s:%s" % (container_name, addr_port["addr"], addr_port["port"])
                             if SESSION_COOKIE:
                                 server_string += " cookie check"
+                            else:
+                                server_string += " check"
 
                             # Do not add duplicate backend routes
                             duplicated = False
@@ -98,6 +100,7 @@ def cfg_backend(backend_routes, vhost):
                     backend = []
                     if SESSION_COOKIE:
                         backend.append("appsession %s len 64 timeout 3h request-learn prefix" % (SESSION_COOKIE, ))
+                    backend.append("option httpchk HEAD /healthz HTTP/1.1\r\nHost:\ www")
 
                     backend.append("balance %s" % BALANCE)
                     for container_name, addr_port in backend_routes.iteritems():
@@ -105,6 +108,8 @@ def cfg_backend(backend_routes, vhost):
                             server_string = "server %s %s:%s" % (container_name, addr_port["addr"], addr_port["port"])
                             if SESSION_COOKIE:
                                 server_string += " cookie check"
+                            else:
+                                server_string += " check"
 
                             # Do not add duplicate backend routes
                             duplicated = False
@@ -122,12 +127,15 @@ def cfg_backend(backend_routes, vhost):
         backend = []
         if SESSION_COOKIE:
             backend.append("appsession %s len 64 timeout 3h request-learn prefix" % (SESSION_COOKIE, ))
+        backend.append("option httpchk HEAD /healthz HTTP/1.1\r\nHost:\ www")
 
         backend.append("balance %s" % BALANCE)
         for container_name, addr_port in backend_routes.iteritems():
             server_string = "server %s %s:%s" % (container_name, addr_port["addr"], addr_port["port"])
             if SESSION_COOKIE:
                 server_string += " cookie check"
+            else:
+                server_string += " check"
 
             # Do not add duplicate backend routes
             duplicated = False
